@@ -1,0 +1,133 @@
+#include<cstdio>
+#include<iostream>
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+typedef struct node Node;
+typedef struct Nodehead HeadNode;
+typedef struct graph Graph;
+
+struct node{
+
+    int data;
+    Node *next;
+};
+
+struct Nodehead{
+    Node *head;
+};
+
+struct graph{
+    int v;
+    HeadNode *edges;
+};
+
+Node *createNode(int dataValue){
+    Node *temp;
+    temp = (Node*)malloc(sizeof(Node));
+    temp->data = dataValue;
+    temp->next = NULL;
+
+    return temp;
+}
+HeadNode *ptr;
+HeadNode *ptrr;
+Graph *createGraph(int V){
+
+    Graph *tempGraph;
+    tempGraph = (Graph*)malloc(sizeof(Graph));
+
+    tempGraph->v = V;
+    tempGraph->edges = (HeadNode*)malloc(V * sizeof(HeadNode));
+
+    for(int i = 0; i < V; i++){
+        tempGraph->edges[i].head = NULL;
+    }
+
+    return tempGraph;
+}
+
+
+void addEdge(Graph *tmpgraph, int src, int dest){
+
+    Node *temp;
+    Node *poi = (Node*)malloc(sizeof(Node));
+    temp = createNode(dest);
+
+
+    if(tmpgraph->edges[src].head == NULL){
+        tmpgraph->edges[src].head = temp;
+        ptr[src].head = temp;
+    }else{
+        poi = ptr[src].head;
+        poi->next = temp;
+        ptr[src].head = temp;
+    }
+
+    //temp->next = tmpgraph->edges[src].head;
+    //tmpgraph->edges[src].head = temp;
+
+    temp = createNode(src);
+
+    if(tmpgraph->edges[dest].head == NULL){
+        tmpgraph->edges[dest].head = temp;
+        ptr[dest].head = temp;
+    }else{
+        poi = ptr[dest].head;
+        poi->next = temp;
+        ptr[dest].head = temp;
+    }
+
+    //temp->next = tmpgraph->edges[dest].head;
+    //tmpgraph->edges[dest].head = temp;
+
+}
+
+void printGraph(Graph *graph){
+    for(int i = 0; i < graph->v; i++){
+
+        Node *newNode;
+        newNode = (Node*)malloc(sizeof(Node));
+
+        newNode = graph->edges[i].head;
+
+        cout << i;
+        while(newNode){
+            cout << "-> ";
+            cout << newNode->data;
+            newNode = newNode->next;
+        }
+        cout << endl;
+    }
+
+}
+
+
+int main(){
+
+    int testCase;
+    cin >> testCase;
+
+    for(int ca = 0; ca < testCase; ca++){
+
+        int e, v;
+
+        cin >> e >> v;
+
+        ptr = (HeadNode*)malloc(e *  sizeof(HeadNode));
+        ptrr = (HeadNode*)malloc(e * sizeof(HeadNode));
+        Graph* graph = createGraph(e);
+        int a, b;
+        for(int val = 0; val < v; val++){
+            cin >> a >> b;
+            addEdge(graph, a, b);
+        }
+        printGraph(graph);
+    }
+
+
+
+    return 0;
+}
